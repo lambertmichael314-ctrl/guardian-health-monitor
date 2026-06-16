@@ -1,0 +1,29 @@
+┌─────────────────────────────────────────────────┐
+│                  Browser                         │
+│         (dashboard.html)                         │
+└────────────────────┬────────────────────────────┘
+                     │ HTTP / Fetch
+                     ▼
+┌─────────────────────────────────────────────────┐
+│           Flask API (app.py)                      │
+│                                                   │
+│  /api/scan  →  run_health_scan()                  │
+│                   ├─ check_driver_health()        │
+│                   ├─ check_storage_health()       │
+│                   ├─ check_memory_health()        │
+│                   ├─ check_cpu_health()           │
+│                   ├─ check_battery_health()       │
+│                   ├─ check_windows_update_status()│
+│                   ├─ check_event_log_health()     │
+│                   └─ check_system_info()          │
+│                                                   │
+│  /api/health →  {"status": "online"}              │
+└────────────────────┬────────────────────────────┘
+                     │
+                     ▼
+          ┌──────────────────────┐
+          │   Windows WMI / COM   │
+          │   (Win32_PnPSigned    │
+          │    Driver, Disk, CPU, │
+          │    Memory, Event Log) │
+          └──────────────────────┘
